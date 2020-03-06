@@ -8,22 +8,22 @@ data "aws_iam_policy" "boundary" {
 locals {
   account_id = data.aws_caller_identity.this.account_id
 
-  domain = "origo-dev.oslo.systems"
-  email  = "origo@oslo.kommune.no"
+  env    = "dev"
+  prefix = "origo"
+  email  = "origo@oslokommune.no"
+  domain = "origo.oslo.systems"
+  region = "eu-west-1"
 
-  github_org  = "oslokommune"
-  github_team = "origo"
+  github_org             = "oslokommune"
+  github_team            = "origo-developers"
+  github_url             = "git@github.com:oslokommune/origo.git"
+  github_name            = "Origo"
+  github_repository_slug = "origo"
 
-  db_name     = "db"
-  db_database = "origo"
-  db_admin    = "origo_admin"
-  db_domain   = "${local.db_name}.${local.domain}"
+  github_grafana_client_id = "XXX"
+  github_argocd_client_id  = "XXX"
 
-  backend_name   = "backend"
-  backend_domain = "${local.backend_name}.${local.domain}"
-
-  frontend_name   = "frontend"
-  frontend_domain = "${local.frontend_name}.${local.domain}"
+  echo_domain = "echo.${local.domain}"
 }
 
 module "managed-cluster" {
@@ -31,20 +31,20 @@ module "managed-cluster" {
 
   domain = local.domain
   email  = local.email
-  env    = var.env
-  prefix = var.prefix
-  region = var.region
+  env    = local.env
+  prefix = local.prefix
+  region = local.region
 
   monitoring = {
     enabled = true
 
-    # A grafana client integration needs to be created
-    # FIXME: Add to this example what the callback URL
-    # should look like
+    // A grafana.monit.{domain} IRL will be created,
+    // authentication will be performed via github
+    // oauth
     github_authentication = {
       organisation      = local.github_org
       team              = local.github_team
-      grafana_client_id = "XXX"
+      grafana_client_id = local.github_grafana_client_id
     }
   }
 
@@ -52,41 +52,37 @@ module "managed-cluster" {
     enabled = true
     email   = local.email
 
+    // These are the repositories that Argo CD will
+    // watch for changes to deployments
     repositories = [{
-      url          = "git@github.com:oslokommune/origo.git",
-      name         = "Origo",
-      repository   = "origo",
+      url          = local.github_url,
+      name         = local.github_name,
+      repository   = local.github_repository_slug,
       organisation = local.github_org,
     }]
 
-    # FIXME: Add to this example what the callback URL
-    # should look like
+    // An argocd.{domain} URL will be created, and
+    // authentication will be performed via github
+    // oauth
     github_authentication = {
-      organisation     = local.github_org
-      team             = local.github_team
-      argocd_client_id = "XXX"
+      organisation     = local.github_org,
+      team             = local.github_team,
+      argocd_client_id = local.github_argocd_client_id,
     }
   }
 
   permissions_boundary_arn = data.aws_iam_policy.boundary.arn
 }
 
-module "postgres" {
-  source                         = "../bases/terraform/modules/eks-postgres"
-  admin_username                 = local.db_admin
-  application                    = "backend"
-  application_configuration_path = "../applications"
-  cluster_name                   = module.managed-cluster.cluster_name
-  db_name                        = local.db_database
-  dns_name                       = local.db_domain
-  env                            = var.env
-  hosted_zone_id                 = module.managed-cluster.hosted_zone_id
-  prefix                         = var.prefix
-  region                         = var.region
-  subnets                        = module.managed-cluster.database_subnets
-  subnets_cidrs                  = module.managed-cluster.database_subnets_cidrs
-  vpc_id                         = module.managed-cluster.vpc_id
-  permissions_boundary_arn       = data.aws_iam_policy.boundary.arn
-  namespace                      = "origo-backend"
+// An example application that is deployed onto the cluster
+// and managed by Argo CD
+module "echo" {
+  source    = "../bases/terraform/modules/echo"
+  domain    = local.echo_domain
+  env       = local.env
+  git_path  = "${local.env}/applications/echo"
+  git_url   = local.github_url
+  namespace = "echo"
+  prefix    = local.prefix
+  zone_id   = module.managed-cluster.hosted_zone_id
 }
-
