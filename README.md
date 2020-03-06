@@ -8,6 +8,25 @@ This is a work in progress and should not be used unless you know what you are d
 
 You can get started by...
 
+```bash
+export ENV=dev
+make bootstrap
+# Copy the content of examples/basic_cluster into ${ENV}/terraform/main.tf
+# Modify ${ENV}/terraform/main.tf so it matches your requirements
+make tf-init
+cd ${ENV}/terraform
+source local-development
+terraform plan -out staged.tfplan
+terraform apply staged.tfplan
+docker pull hashicorp/http-echo:0.2.3
+docker tag docker pull hashicorp/http-echo:0.2.3 ${ECHO_ECR_REPOSITORY_NAME}
+docker push ${ECHO_ECR_REPOSITORY_NAME}
+cd ..
+make create
+cd applications/echo
+make create
+```
+
 ## Deployment
 
 We use [Argo CD](https://argoproj.github.io/argo-cd/) for deployments. This is based on a gitops pattern, e.g., the source of truth for what is deployed to your Kubernetes cluster resides in your git repository. Argo CD will watch that git repository and keep the deployed state up to date. 
