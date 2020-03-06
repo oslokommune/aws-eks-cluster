@@ -1,0 +1,39 @@
+# NB: Auto-generated file, do not edit!
+#
+# If you need to make changes, update the template
+# and re-run terraform.
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${cluster_name}
+  region: ${region}
+
+iam:
+  withOIDC: true
+  serviceRolePermissionsBoundary: ${permissions_boundary}
+  fargatePodExecutionRolePermissionsBoundary: ${permissions_boundary}
+
+vpc:
+  id: ${vpc_id}
+  cidr: ${cidr}
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+  subnets:
+    private:
+      %{~ for index, az in azs ~}
+      ${az}:
+        id: ${private_subnets[index]}
+        cidr: ${private_subnet_cidrs[index]}
+      %{~ endfor ~}
+    public:
+      %{~ for index, az in azs ~}
+        ${az}:
+          id: ${public_subnets[index]}
+          cidr: ${public_subnet_cidrs[index]}
+      %{~ endfor ~}
+
+# We manage the nodeGroups separately from the creation
+# of the EKS cluster itself.
+nodeGroups: []

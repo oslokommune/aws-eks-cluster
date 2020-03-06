@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  namespace: kube-system
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+        - name: external-dns
+          env:
+            - name: HOSTED_ZONE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: external-dns-conf
+                  key: hosted-zone-id
+            - name: DOMAIN_FILTER
+              valueFrom:
+                configMapKeyRef:
+                  name: external-dns-conf
+                  key: domain-filter
+          image: registry.opensource.zalan.do/teapot/external-dns:v0.5.17
+          args:
+            - --source=service
+            - --source=ingress
+            - --domain-filter=$(DOMAIN_FILTER)
+            - --provider=aws
+#            - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
+            - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
+            - --registry=txt
+            - --txt-owner-id=$(HOSTED_ZONE_ID)
+      securityContext:
+        fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes and AWS token files

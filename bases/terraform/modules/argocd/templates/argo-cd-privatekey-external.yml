@@ -1,0 +1,12 @@
+apiVersion: 'kubernetes-client.io/v1'
+kind: ExternalSecret
+metadata:
+  name: ${name}
+  namespace: argocd
+spec:
+  backendType: systemManager
+  data:
+    %{~ for name, key in data ~}
+    - key: ${key}
+      name: ${name}
+    %{~ endfor ~}

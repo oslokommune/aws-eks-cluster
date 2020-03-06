@@ -1,0 +1,28 @@
+apiVersion: v1
+data:
+  statusbadge.enabled: 'true'
+  url: https://${domain}
+  repositories: |
+    %{~ for r in repos ~}
+    - url: ${r.url}
+      type: git
+      name: ${r.name}
+      sshPrivateKeySecret:
+        name: argocd-privatekey
+        key: sshPrivateKey
+    %{~ endfor ~}
+  dex.config: |
+    connectors:
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: ${client_id}
+        clientSecret: $dex.github.clientSecret
+        orgs:
+        - name: ${org}
+          teams:
+          - ${team}
+kind: ConfigMap
+metadata:
+  name: argocd-cm

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-alb-ingress-controller-conf
+  namespace: kube-system
+data:
+  cluster-name: vv-cluster
+  vpc-id: id
+  region: eu-west-1

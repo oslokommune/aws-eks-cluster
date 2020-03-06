@@ -1,0 +1,20 @@
+bases:
+  - github.com/argoproj/argo-cd//manifests/ha/cluster-install?ref=v1.4.2
+
+resources:
+  - argo-cd-ingress.yaml
+
+patchesStrategicMerge:
+  - argo-cd-cm.yaml
+  - argo-cd-server-service.yml
+  - argo-cd-rbac-cm.yaml
+
+patchesJson6902:
+  - target:
+      name: argocd-server
+      group: apps
+      version: v1
+      kind: Deployment
+    path: argo-cd-server-patch.json
+
+namespace: argocd

@@ -1,0 +1,27 @@
+# NB: Auto-generated file, do not edit!
+#
+# If you need to make changes, update the template
+# and re-run terraform.
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${cluster_name}
+  region: ${region}
+
+nodeGroups:
+  - name: ng-generic
+    labels:
+      pool: ng-generic
+    instanceType: ${instance_type}
+    desiredCapacity: ${desired_capacity}
+    %{~ if autoscaling ~}
+    minSize: ${desired_capacity}
+    maxSize: ${max_capacity}
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/${cluster_name}: "owned"
+    %{~ endif ~}
+    privateNetworking: true
+    iam:
+      instanceRolePermissionsBoundary: ${permissions_boundary}

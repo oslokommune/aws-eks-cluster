@@ -1,0 +1,9 @@
+commonLabels:
+  app.kubernetes.io/name: alb-ingress-controller
+
+resources:
+  - config_map.yml
+  - cluster_role.yml
+  - cluster_role_binding.yml
+  - deployment.yaml
+  - service_account.yml

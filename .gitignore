@@ -1,0 +1,5 @@
+.terraform
+*.tfstate.backup
+**/staged.plan
+**/staged.tfplan
+errored.tfstate
