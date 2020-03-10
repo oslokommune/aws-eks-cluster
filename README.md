@@ -5,8 +5,45 @@
 This is a work in progress and should not be used unless you know what you are doing. The purpose of this repository is to provide building blocks for easily getting an EKS cluster up and running on your AWS account with a relatively sane set of defaults. 
 
 ## Getting started
+### Prerequisites
 
-You can get started by...
+1. Install [saml2aws](https://github.com/Versent/saml2aws)
+    - MacOS: `brew install saml2aws`
+1. Install [terraform](https://www.terraform.io/)
+    - MacOS: `brew install terraform`
+1. Install [aws-cli](https://aws.amazon.com/cli/)
+    - MacOS: `brew install aws-cli`
+1. Install [docker](https://docs.docker.com/install/)
+    - MacOS: `brew install docker`
+1. Install [docker-credential-ecr-login](https://github.com/awslabs/amazon-ecr-credential-helper)
+    - MacOS: `brew install docker-credential-ecr-login`
+1. Configure [docker-credential-ecr-login](https://github.com/awslabs/amazon-ecr-credential-helper)
+1. Get access to the AWS accounts for the defined environments: `find . -name config.mk -print -exec cat {} \;`
+1. Configure `saml2aws`
+
+#### saml2aws
+
+1. Run `saml2aws configure`
+2. Your configuration should look like the one below (`cat ~/.saml2aws`), the only real difference is your `username` or `aws_profile`
+3. The `Makefile` also expects that you store your password
+         
+```
+[default]
+app_id               =
+url                  = https://login.oslo.kommune.no/auth/realms/AD/protocol/saml/clients/amazon-aws
+username             = byrXXXXXX
+provider             = KeyCloak
+mfa                  = Auto
+skip_verify          = false
+timeout              = 0
+aws_urn              = urn:amazon:webservices
+aws_session_duration = 14400
+aws_profile          = default
+subdomain            =
+role_arn             =
+```
+
+#### You can get started by...
 
 ```bash
 export ENV=dev
@@ -80,39 +117,6 @@ $ cd .. && make create
 ### Using the makefiles
 
 There are targets within each nodegroup, extension or integration, where those targets can be run directly
-
-### Prerequisites
-
-1. Install [saml2aws](https://github.com/Versent/saml2aws)
-1. Install [terraform](https://www.terraform.io/)
-1. Install [aws-cli](https://aws.amazon.com/cli/)
-1. Install [docker](https://docs.docker.com/install/)
-1. Install [docker-credential-ecr-login](https://github.com/awslabs/amazon-ecr-credential-helper)
-1. Configure [docker-credential-ecr-login](https://github.com/awslabs/amazon-ecr-credential-helper)
-1. Get access to the AWS accounts for the defined environments: `find . -name config.mk -print -exec cat {} \;`
-1. Configure `saml2aws`
-
-#### saml2aws
-
-1. Run `saml2aws configure`
-2. Your configuration should look like the one below (`cat ~/.saml2aws`), the only real difference is your `username` or `aws_profile`
-3. The `Makefile` also expects that you store your password
-
-```
-[default]
-app_id               =
-url                  = https://login.oslo.kommune.no/auth/realms/AD/protocol/saml/clients/amazon-aws
-username             = byrXXXXXX
-provider             = KeyCloak
-mfa                  = Auto
-skip_verify          = false
-timeout              = 0
-aws_urn              = urn:amazon:webservices
-aws_session_duration = 14400
-aws_profile          = default
-subdomain            =
-role_arn             =
-```
 
 ## Tools
 
