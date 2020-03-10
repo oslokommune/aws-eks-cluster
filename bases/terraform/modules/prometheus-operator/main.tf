@@ -6,7 +6,7 @@ locals {
 }
 
 module "grafana_cert" {
-  source  = "../certificate"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/certificate"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -15,7 +15,7 @@ module "grafana_cert" {
 }
 
 module "grafana_client_secret" {
-  source  = "../secret-placeholder"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -23,7 +23,7 @@ module "grafana_client_secret" {
 }
 
 module "grafana_cookie_secret" {
-  source  = "../secret-generated"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-generated"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -31,7 +31,7 @@ module "grafana_cookie_secret" {
 }
 
 module "grafana_admin_user" {
-  source      = "../secret-placeholder"
+  source      = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled     = var.enabled
   env         = var.env
   prefix      = var.prefix
@@ -40,7 +40,7 @@ module "grafana_admin_user" {
 }
 
 module "grafana_admin_secret" {
-  source  = "../secret-generated"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-generated"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix

@@ -3,8 +3,8 @@
 
 .TF_INIT_OPTIONS    ?= -var 'env=$(ENV)' -backend-config=$(.BACKEND_HCL) -reconfigure
 
-mkfile_path := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
-env_dir     := $(mkfile_path)$(ENV)/terraform
+mkfile_path := $(shell pwd)
+env_dir     := $(mkfile_path)/$(ENV)/terraform
 
 # Initialise the terraform repository
 tf-init:

@@ -3,9 +3,6 @@ ifndef IAM_ROLE
 $(error IAM_ROLE is required for bootstrapping, e.g., 'ENV=dev IAM_ROLE=arn:aws:iam::... make boostrap')
 endif
 
-include aws.mk
-include terraform.mk
-
 .base         = bases/terraform
 .target       = $(ENV)/terraform
 .remote_state = $(.target)/remote-state

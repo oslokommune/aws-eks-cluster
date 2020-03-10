@@ -1,12 +1,12 @@
 module "admin" {
-  source = "../secret-generated"
+  source = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-generated"
   env    = var.env
   prefix = var.prefix
   name   = "postgres/secret/${var.application}/master"
 }
 
 module "user" {
-  source = "../secret-generated"
+  source = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-generated"
   env    = var.env
   prefix = var.prefix
   name   = "postgres/secret/${var.application}/user"

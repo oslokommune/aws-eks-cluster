@@ -5,7 +5,7 @@ locals {
 }
 
 module "cert" {
-  source  = "../certificate"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/certificate"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -19,7 +19,7 @@ resource "random_password" "admin_pass" {
 }
 
 module "admin_secret" {
-  source      = "../secret-placeholder"
+  source      = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled     = var.enabled
   env         = var.env
   prefix      = var.prefix
@@ -28,7 +28,7 @@ module "admin_secret" {
 }
 
 module "admin_mtime" {
-  source      = "../secret-placeholder"
+  source      = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled     = var.enabled
   env         = var.env
   prefix      = var.prefix
@@ -37,7 +37,7 @@ module "admin_mtime" {
 }
 
 module "server_secret_key" {
-  source  = "../secret-generated"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-generated"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -45,7 +45,7 @@ module "server_secret_key" {
 }
 
 module "client_secret" {
-  source  = "../secret-placeholder"
+  source  = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled = var.enabled
   env     = var.env
   prefix  = var.prefix
@@ -58,7 +58,7 @@ resource "tls_private_key" "key" {
 }
 
 module "git_priv_key" {
-  source      = "../secret-placeholder"
+  source      = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/secret-placeholder"
   enabled     = var.enabled
   env         = var.env
   prefix      = var.prefix

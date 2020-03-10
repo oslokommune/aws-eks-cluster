@@ -13,6 +13,8 @@ include resources/makefile-stubs/cli.mk
 
 ifeq ($(MAKECMDGOALS),bootstrap)
 include resources/makefile-stubs/bootstrap.mk
+include resources/makefile-stubs/aws.mk
+include resources/makefile-stubs/terraform.mk
 else
 include $(ENV)/terraform/config.mk
 include resources/makefile-stubs/aws.mk

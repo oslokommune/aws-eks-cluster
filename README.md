@@ -5,6 +5,7 @@
 This is a work in progress and should not be used unless you know what you are doing. The purpose of this repository is to provide building blocks for easily getting an EKS cluster up and running on your AWS account with a relatively sane set of defaults. 
 
 ## Getting started
+
 ### Prerequisites
 
 1. Install [saml2aws](https://github.com/Versent/saml2aws)
@@ -43,7 +44,30 @@ subdomain            =
 role_arn             =
 ```
 
-#### You can get started by...
+### Follow these steps
+
+1. Copy the following files and directories:
+    - `Makefile`
+    - `resources/`
+    - `bases/{applications, cluster}`
+    - `bases/terraform/base`
+    - `bases/terraform/global_variables.tf`
+2. Update `bases/terraform/global_variables.tf` the `prefix` default to make sense for your team
+3. Run `make boostrap`
+    - This requires that you set `ENV=dev` and `IAM_ROLE=XXX`
+    - The `ENV=dev` can be set to whatever you want the environment to be called
+    - The `IAM_ROLE=XXX` needs to match the IAM_ROLE ARN of the AWS account you want the environment setup in
+        - The ARN will look like: `arn:aws:iam::********:role/oslokommune/iamadmin-SAML`
+4. This will setup terraform remote state, if all looks good answer `yes`
+5. Now we will continue with setting up our environment
+6. Copy `examples/basic-cluster.tf` into `${ENV}/terraform/main.tf`
+7. Modify the `local` section to match your team specific setup
+8. Add the argocd and grafana oauth apps: https://github.com/organizations/oslokommune/settings/applications
+    - https://grafana.monit.veiviser-dev.oslo.systems/
+    - https://grafana.monit.veiviser-dev.oslo.systems/oauth2/callback
+    - https://argocd.veiviser-dev.oslo.systems/applications
+    - https://argocd.veiviser-dev.oslo.systems/api/dex/callback
+9. Run: `ENV=dev make tf-init`
 
 ```bash
 export ENV=dev

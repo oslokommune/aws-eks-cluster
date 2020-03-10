@@ -53,7 +53,7 @@ module "vpc" {
 }
 
 module "cluster" {
-  source                          = "../cluster"
+  source                          = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/cluster"
   bases_configuration_path        = var.bases_configuration_path
   cluster_configuration_path      = var.cluster_configuration_path
   cluster_name                    = local.cluster_name
@@ -71,7 +71,7 @@ module "cluster" {
 }
 
 module "alb_ingress_controller" {
-  source                     = "../alb-ingress-controller"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/alb-ingress-controller"
   enabled                    = local.enable_alb_ingress_controller
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -84,7 +84,7 @@ module "alb_ingress_controller" {
 }
 
 module "autoscaler" {
-  source                     = "../autoscaler"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/autoscaler"
   enabled                    = var.enable_autoscaler
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -96,7 +96,7 @@ module "autoscaler" {
 }
 
 module "ebs_csi_driver" {
-  source                     = "../ebs-csi-driver"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/ebs-csi-driver"
   enabled                    = var.enable_ebs_csi_driver
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -108,7 +108,7 @@ module "ebs_csi_driver" {
 }
 
 module "external_dns" {
-  source                     = "../external-dns"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/external-dns"
   enabled                    = local.enable_external_dns
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -122,7 +122,7 @@ module "external_dns" {
 }
 
 module "external_secrets" {
-  source                     = "../external-secrets"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/external-secrets"
   enabled                    = local.enable_external_secrets
   cluster_configuration_path = var.cluster_configuration_path
   cluster_name               = local.cluster_name
@@ -133,7 +133,7 @@ module "external_secrets" {
 }
 
 module "ecr_power_user" {
-  source                     = "../ecr-power-user"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/ecr-power-user"
   enabled                    = var.enable_ecr_power_user
   cluster_configuration_path = var.cluster_configuration_path
   cluster_name               = local.cluster_name
@@ -144,7 +144,7 @@ module "ecr_power_user" {
 }
 
 module "nodegroup_generic" {
-  source                     = "../nodegroups-generic"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/nodegroups-generic"
   enabled                    = var.enable_nodegroup_generic
   cluster_configuration_path = var.cluster_configuration_path
   cluster_name               = local.cluster_name
@@ -155,7 +155,7 @@ module "nodegroup_generic" {
 }
 
 module "prometheus_operator" {
-  source                     = "../prometheus-operator"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/prometheus-operator"
   enabled                    = var.monitoring.enabled
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -170,7 +170,7 @@ module "prometheus_operator" {
 }
 
 module "loki" {
-  source                     = "../loki"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/loki"
   enabled                    = var.monitoring.enabled
   bases_configuration_path   = var.bases_configuration_path
   cluster_configuration_path = var.cluster_configuration_path
@@ -179,7 +179,7 @@ module "loki" {
 }
 
 module "argocd" {
-  source                     = "../argocd"
+  source                     = "git::git@github.com:oslokommune/aws-eks-cluster.git//bases/terraform/modules/argocd"
   enabled                    = var.deployment.enabled
   cluster_configuration_path = var.cluster_configuration_path
   env                        = var.env

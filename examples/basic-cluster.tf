@@ -8,11 +8,11 @@ data "aws_iam_policy" "boundary" {
 locals {
   account_id = data.aws_caller_identity.this.account_id
 
-  env    = "dev"
-  prefix = "origo"
+  env    = var.env
+  prefix = var.prefix
+  region = var.region
   email  = "origo@oslokommune.no"
   domain = "origo.oslo.systems"
-  region = "eu-west-1"
 
   github_org             = "oslokommune"
   github_team            = "origo-developers"
