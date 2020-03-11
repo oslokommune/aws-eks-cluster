@@ -22,7 +22,7 @@ namespace       := monitoring
 repository_url  := https://kubernetes-charts.storage.googleapis.com
 repository_name := stable
 chart           := stable/prometheus-operator
-version         := 8.5.0
+version         := 8.12.1
 release_name    := promtheus-operator-eks
 include ../../common/kube-helm.mk
 
