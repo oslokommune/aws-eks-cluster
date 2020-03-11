@@ -55,7 +55,7 @@ update-chart: $(.values)
 	$(if $(.has_release),\
 		$(HELM) upgrade $(release_name) $(chart) \
 			--namespace $(namespace) --values $(.values) \
-			--version $(version) $(atomic)\
+			--force --version $(version) $(atomic)\
 	)
 
 # Deletes the chart and all its resources from
