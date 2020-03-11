@@ -394,6 +394,38 @@ grafana:
   ##
   defaultDashboardsEnabled: true
 
+  env:
+    GF_SERVER_PROTOCOL: http
+    GF_SERVER_DOMAIN: ${domain_grafana}
+    GF_SERVER_ROOT_URL: ${server_root_url}
+    GF_SERVER_ENABLE_GZIP: "true"
+    GF_SECURITY_COOKIE_SECURE: "true"
+    GF_AUTH_GITHUB_ENABLED: "true"
+    GF_AUTH_GITHUB_SCOPES: "user:email,read:org"
+    GF_AUTH_GITHUB_AUTH_URL: https://github.com/login/oauth/authorize
+    GF_AUTH_GITHUB_TOKEN_URL: https://github.com/login/oauth/access_token
+    GF_AUTH_GITHUB_API_URL: https://api.github.com/user
+    GF_AUTH_GITHUB_ALLOW_SIGNUP: "true"
+    GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS: ${github_org}
+    GF_AUTH_GITHUB_TEAM_IDS: ${github_team_id}
+    GF_AUTH_GITHUB_CLIENT_ID: ${client_id_grafana}
+    GF_USERS_AUTO_ASSIGN_ORG: "true"
+    GF_USERS_AUTO_ASSIGN_ORG_ID: "true"
+    GF_USERS_AUTO_ASSIGN_ORG_ROLE: "Admin"
+
+  envValueFrom:
+    env:
+      - name: GF_SECURITY_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: ${auth_secrets_name}
+            key: grafana_cookie_secret
+      - name: GF_AUTH_GITHUB_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: ${auth_secrets_name}
+            key: grafana_client_secret
+
   admin:
     existingSecret: ${auth_secrets_name}
     userKey: grafana_admin_user
@@ -486,33 +518,33 @@ grafana:
   #   url: https://prometheus.svc:9090
   #   version: 1
 
-  extraContainers: |
-    - name: proxy
-      image: quay.io/pusher/oauth2_proxy:v5.0.0
-      env:
-        - name: cookie_secret
-          valueFrom:
-            secretKeyRef:
-              name: ${auth_secrets_name}
-              key: grafana_cookie_secret
-        - name: client_secret
-          valueFrom:
-            secretKeyRef:
-              name: ${auth_secrets_name}
-              key: grafana_client_secret
-      args:
-        - -provider=github
-        - -client-id=${client_id_grafana}
-        - -client-secret=$(client_secret)
-        - -github-org=${github_org}
-        - -github-team=${github_team}
-        - -email-domain=*
-        - -cookie-secret=$(cookie_secret)
-        - -http-address=http://0.0.0.0:4180
-        - -upstream=http://127.0.0.1:3000
-      ports:
-        - name: proxy-web
-          containerPort: 4180
+  extraContainers: []
+#    - name: proxy
+#      image: quay.io/pusher/oauth2_proxy:v5.0.0
+#      env:
+#        - name: cookie_secret
+#          valueFrom:
+#            secretKeyRef:
+#              name: ${auth_secrets_name}
+#              key: grafana_cookie_secret
+#        - name: client_secret
+#          valueFrom:
+#            secretKeyRef:
+#              name: ${auth_secrets_name}
+#              key: grafana_client_secret
+#      args:
+#        - -provider=github
+#        - -client-id=${client_id_grafana}
+#        - -client-secret=$(client_secret)
+#        - -github-org=${github_org}
+#        - -github-team=${github_team}
+#        - -email-domain=*
+#        - -cookie-secret=$(cookie_secret)
+#        - -http-address=http://0.0.0.0:4180
+#        - -upstream=http://127.0.0.1:3000
+#      ports:
+#        - name: proxy-web
+#          containerPort: 4180
 
   ## If true, create a serviceMonitor for grafana
   ##

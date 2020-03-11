@@ -8,10 +8,11 @@ resource "local_file" "helm_values" {
   content = templatefile("${path.module}/templates/values.tmpl", {
     auth_secrets_name = local.auth_secrets_name
     github_org        = var.github_authentication.organisation
-    github_team       = var.github_authentication.team
+    github_team_id    = var.github_authentication.team_id
     domain_grafana    = local.domain_grafana
     cert_grafana_arn  = module.grafana_cert.arn
     client_id_grafana = var.github_authentication.grafana_client_id
+    server_root_url = "https://${local.domain_grafana}"
   })
 }
 

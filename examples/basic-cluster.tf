@@ -15,7 +15,7 @@ locals {
   domain = "origo.oslo.systems"
 
   github_org             = "oslokommune"
-  github_team            = "origo-developers"
+  github_team_id         = "XXX"
   github_url             = "git@github.com:oslokommune/origo.git"
   github_name            = "Origo"
   github_repository_slug = "origo"

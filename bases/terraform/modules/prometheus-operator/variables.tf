@@ -38,7 +38,7 @@ variable "github_authentication" {
   description = "Configuration details for setting up github authentication"
   type = object({
     organisation           = string
-    team                   = string
+    team_id                = string
     grafana_client_id      = string
   })
 }

@@ -98,7 +98,7 @@ variable "monitoring" {
 
     github_authentication = object({
       organisation      = string
-      team              = string
+      team_id           = string
       grafana_client_id = string
     })
   })
