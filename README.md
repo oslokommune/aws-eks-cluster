@@ -70,7 +70,7 @@ role_arn             =
 1. Modify the `local` section to match your team specific setup
 1. Add the argocd and grafana oauth apps: https://github.com/organizations/oslokommune/settings/applications
     - https://grafana.monit.veiviser-dev.oslo.systems/
-    - https://grafana.monit.veiviser-dev.oslo.systems/oauth2/callback
+    - https://grafana.monit.veiviser-dev.oslo.systems/login/github
     - https://argocd.veiviser-dev.oslo.systems/applications
     - https://argocd.veiviser-dev.oslo.systems/api/dex/callback
 1. Run: `ENV=dev make tf-init`
