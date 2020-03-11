@@ -8,12 +8,17 @@ This is a work in progress and should not be used unless you know what you are d
 
 ### Prerequisites
 
+1. Install [helm](https://helm.sh/)
+    - MacOS: `brew install kubernetes-helm`
+    - Note: This needs to be version 3.0 or newer, e.g., without Tiller
 1. Install [saml2aws](https://github.com/Versent/saml2aws)
     - MacOS: `brew install saml2aws`
 1. Install [terraform](https://www.terraform.io/)
     - MacOS: `brew install terraform`
 1. Install [aws-cli](https://aws.amazon.com/cli/)
     - MacOS: `brew install aws-cli`
+1. Install [eksctl](https://eksctl.io)
+    - MacOS: `brew tap weaveworks/tap && brew install weaveworks/tap/eksctl`
 1. Install [docker](https://docs.docker.com/install/)
     - MacOS: `brew install docker`
 1. Install [docker-credential-ecr-login](https://github.com/awslabs/amazon-ecr-credential-helper)
@@ -47,27 +52,33 @@ role_arn             =
 ### Follow these steps
 
 1. Copy the following files and directories:
+    - `.gitignore`
     - `Makefile`
     - `resources/`
     - `bases/{applications, cluster}`
     - `bases/terraform/base`
     - `bases/terraform/global_variables.tf`
-2. Update `bases/terraform/global_variables.tf` the `prefix` default to make sense for your team
-3. Run `make boostrap`
+1. Update `bases/terraform/global_variables.tf` the `prefix` default to make sense for your team
+1. Run `make boostrap`
     - This requires that you set `ENV=dev` and `IAM_ROLE=XXX`
     - The `ENV=dev` can be set to whatever you want the environment to be called
     - The `IAM_ROLE=XXX` needs to match the IAM_ROLE ARN of the AWS account you want the environment setup in
         - The ARN will look like: `arn:aws:iam::********:role/oslokommune/iamadmin-SAML`
-4. This will setup terraform remote state, if all looks good answer `yes`
-5. Now we will continue with setting up our environment
-6. Copy `examples/basic-cluster.tf` into `${ENV}/terraform/main.tf`
-7. Modify the `local` section to match your team specific setup
-8. Add the argocd and grafana oauth apps: https://github.com/organizations/oslokommune/settings/applications
+1. This will setup terraform remote state, if all looks good answer `yes`
+1. Now we will continue with setting up our environment
+1. Copy `examples/basic-cluster.tf` into `${ENV}/terraform/main.tf`
+1. Modify the `local` section to match your team specific setup
+1. Add the argocd and grafana oauth apps: https://github.com/organizations/oslokommune/settings/applications
     - https://grafana.monit.veiviser-dev.oslo.systems/
     - https://grafana.monit.veiviser-dev.oslo.systems/oauth2/callback
     - https://argocd.veiviser-dev.oslo.systems/applications
     - https://argocd.veiviser-dev.oslo.systems/api/dex/callback
-9. Run: `ENV=dev make tf-init`
+1. Run: `ENV=dev make tf-init`
+1. Run: `cd ${ENV}/terraform && source local-dev && terraform plan -out staged.tfplan`
+1. Run: `terraform apply staged.tfplan` if this looks good
+1. Run: `cd ${ENV}/cluster && make create`
+1. Run: `kubectl apply -f bases/applications/namespace.yml`
+1. Run: `cd ${ENV}/applications/echo && make create`
 
 ```bash
 export ENV=dev

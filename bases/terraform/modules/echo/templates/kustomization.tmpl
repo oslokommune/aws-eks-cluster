@@ -1,4 +1,4 @@
-namespace: vv-backend
+namespace: echo
 bases:
   - ${bases_configuration_path}/echo
 patchesStrategicMerge:
@@ -9,11 +9,9 @@ patchesJson6902:
     group: networking.k8s.io
     version: v1beta1
     kind: Ingress
-    namespace: ${namespace}
   path: patch_ingress.json
 - target:
     name: echo-conf
     version: v1
     kind: ConfigMap
-    namespace: ${namespace}
   path: patch_configmap.json

@@ -14,8 +14,7 @@
 #	https://github.com/weaveworks/eksctl/pull/1638
 #
 # Once PR is merged uncomment this lint:
-# 	EKSCTL  := $(shell command -v eksctl 2> /dev/null)
-EKSCTL  := $(HOME)/src/eksctl/eksctl
+EKSCTL := $(shell command -v eksctl 2> /dev/null)
 $(EKSCTL):
 	$(error eksctl is missing, please install)
 

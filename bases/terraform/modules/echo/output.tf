@@ -37,7 +37,7 @@ resource "local_file" "argocd-application" {
 resource "local_file" "deployment" {
   filename = "${local.base_dir}/deployment.yml"
   content = templatefile("${path.module}/templates/deployment.yml", {
-    image_url = aws_ecr_repository.echo.repository_url
+    image_url = "${aws_ecr_repository.echo.repository_url}:latest"
   })
 }
 
