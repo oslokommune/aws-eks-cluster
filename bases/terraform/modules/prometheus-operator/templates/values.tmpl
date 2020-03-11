@@ -519,32 +519,6 @@ grafana:
   #   version: 1
 
   extraContainers: []
-#    - name: proxy
-#      image: quay.io/pusher/oauth2_proxy:v5.0.0
-#      env:
-#        - name: cookie_secret
-#          valueFrom:
-#            secretKeyRef:
-#              name: ${auth_secrets_name}
-#              key: grafana_cookie_secret
-#        - name: client_secret
-#          valueFrom:
-#            secretKeyRef:
-#              name: ${auth_secrets_name}
-#              key: grafana_client_secret
-#      args:
-#        - -provider=github
-#        - -client-id=${client_id_grafana}
-#        - -client-secret=$(client_secret)
-#        - -github-org=${github_org}
-#        - -github-team=${github_team}
-#        - -email-domain=*
-#        - -cookie-secret=$(cookie_secret)
-#        - -http-address=http://0.0.0.0:4180
-#        - -upstream=http://127.0.0.1:3000
-#      ports:
-#        - name: proxy-web
-#          containerPort: 4180
 
   ## If true, create a serviceMonitor for grafana
   ##
