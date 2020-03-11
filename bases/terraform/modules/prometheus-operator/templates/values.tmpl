@@ -414,17 +414,14 @@ grafana:
     GF_USERS_AUTO_ASSIGN_ORG_ROLE: "Admin"
 
   envValueFrom:
-    env:
-      - name: GF_SECURITY_SECRET_KEY
-        valueFrom:
-          secretKeyRef:
-            name: ${auth_secrets_name}
-            key: grafana_cookie_secret
-      - name: GF_AUTH_GITHUB_CLIENT_SECRET
-        valueFrom:
-          secretKeyRef:
-            name: ${auth_secrets_name}
-            key: grafana_client_secret
+    GF_SECURITY_SECRET_KEY:
+      secretKeyRef:
+        name: ${auth_secrets_name}
+        key: grafana_cookie_secret
+    GF_AUTH_GITHUB_CLIENT_SECRET:
+      secretKeyRef:
+        name: ${auth_secrets_name}
+        key: grafana_client_secret
 
   admin:
     existingSecret: ${auth_secrets_name}
