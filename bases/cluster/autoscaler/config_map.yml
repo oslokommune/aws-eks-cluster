@@ -4,4 +4,4 @@ metadata:
   name: cluster-name
   namespace: kube-system
 data:
-  cluster-name: vv-cluster
+  cluster-name: cluster # Requires override

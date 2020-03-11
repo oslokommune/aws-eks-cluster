@@ -2,6 +2,11 @@ SHELL   = bash
 PROFILE = saml2aws-terraform-profile
 REGION  = eu-west-1
 
+CLUSTER ?=
+ifndef CLUSTER
+$(error CLUSTER variable must be set)
+endif
+
 ENV ?=
 ifndef ENV
 $(error ENV variable must be set)
@@ -26,7 +31,7 @@ delete:
 	$(MAKE) --directory=$(ENV)/cluster TARGET=delete
 login: aws-login
 	@echo "! Configuring kubeconfig using eksctl"
-	@$(EKSCTL) utils write-kubeconfig --cluster vv-cluster-$(ENV) --region $(REGION) --profile $(PROFILE) > /dev/null
+	@$(EKSCTL) utils write-kubeconfig --cluster $(CLUSTER) --region $(REGION) --profile $(PROFILE) > /dev/null
 	@echo "! Checking that kubectl is configured correctly"
 	@$(KUBECTL) version > /dev/null
 	@echo "! Configured successfully"

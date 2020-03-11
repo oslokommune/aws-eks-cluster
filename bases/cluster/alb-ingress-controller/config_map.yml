@@ -4,6 +4,6 @@ metadata:
   name: aws-alb-ingress-controller-conf
   namespace: kube-system
 data:
-  cluster-name: vv-cluster
-  vpc-id: id
-  region: eu-west-1
+  cluster-name: cluster # Requires override
+  vpc-id: id # Requires override
+  region: eu-west-1  # Requires override
