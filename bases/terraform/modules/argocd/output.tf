@@ -38,6 +38,20 @@ resource "local_file" "argo-cd-cm" {
   })
 }
 
+resource "local_file" "argo-cd-dashboard" {
+  count = local.count
+  filename = "${local.base_dir}/argo-cd-grafana-dashboard.yaml"
+  content = templatefile("${path.module}/templates/argo-cd-grafana-dashboard.yaml", {
+  })
+}
+
+resource "local_file" "argo-cd-monitoring" {
+  count = local.count
+  filename = "${local.base_dir}/argo-cd-monitoring.yaml"
+  content = templatefile("${path.module}/templates/argo-cd-monitoring.yaml", {
+  })
+}
+
 resource "local_file" "argo-cd-ingress" {
   count    = local.count
   filename = "${local.base_dir}/argo-cd-ingress.yaml"
