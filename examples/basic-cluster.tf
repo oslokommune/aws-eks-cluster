@@ -25,7 +25,6 @@ locals {
   github_argocd_client_id  = "XXX"
 
   echo_domain  = "echo.${local.domain}"
-  kuard_domain = "kuard.${local.domain}"
 }
 
 module "managed-cluster" {
