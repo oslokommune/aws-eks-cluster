@@ -15,7 +15,8 @@ locals {
   domain = "origo.oslo.systems"
 
   github_org             = "oslokommune"
-  github_team_id         = "XXX"
+  github_team            = "XXX"
+  github_team_id         = "12345"
   github_url             = "git@github.com:oslokommune/origo.git"
   github_name            = "Origo"
   github_repository_slug = "origo"
@@ -23,7 +24,8 @@ locals {
   github_grafana_client_id = "XXX"
   github_argocd_client_id  = "XXX"
 
-  echo_domain = "echo.${local.domain}"
+  echo_domain  = "echo.${local.domain}"
+  kuard_domain = "kuard.${local.domain}"
 }
 
 module "managed-cluster" {
@@ -43,7 +45,7 @@ module "managed-cluster" {
     // oauth
     github_authentication = {
       organisation      = local.github_org
-      team              = local.github_team
+      team_id           = local.github_team_id
       grafana_client_id = local.github_grafana_client_id
     }
   }
@@ -83,6 +85,17 @@ module "echo" {
   git_path  = "${local.env}/applications/echo"
   git_url   = local.github_url
   namespace = "echo"
+  prefix    = local.prefix
+  zone_id   = module.managed-cluster.hosted_zone_id
+}
+
+module "kuard" {
+  source    = "../bases/terraform/modules/kuard"
+  domain    = local.kuard_domain
+  env       = local.env
+  git_path  = "${local.env}/applications/kuard"
+  git_url   = local.github_url
+  namespace = "kuard"
   prefix    = local.prefix
   zone_id   = module.managed-cluster.hosted_zone_id
 }
