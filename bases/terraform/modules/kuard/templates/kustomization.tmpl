@@ -5,12 +5,6 @@ patchesStrategicMerge:
   - deployment.yml
 patchesJson6902:
 - target:
-    name: kuard-ingress
-    group: networking.k8s.io
-    version: v1beta1
-    kind: Ingress
-  path: patch_ingress.json
-- target:
     name: kuard-conf
     version: v1
     kind: ConfigMap

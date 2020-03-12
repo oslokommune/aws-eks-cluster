@@ -10,14 +10,6 @@ resource "local_file" "kustomization" {
   })
 }
 
-resource "local_file" "patch_ingress" {
-  filename = "${local.base_dir}/patch_ingress.json"
-  content = templatefile("${path.module}/templates/patch_ingress.json", {
-    host      = var.domain,
-    host_cert = module.cert.arn,
-  })
-}
-
 resource "local_file" "patch_configmap" {
   filename = "${local.base_dir}/patch_configmap.json"
   content = templatefile("${path.module}/templates/patch_configmap.json", {

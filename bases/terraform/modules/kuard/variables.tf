@@ -8,16 +8,6 @@ variable "prefix" {
   type        = string
 }
 
-variable "domain" {
-  description = "The domain name of this service"
-  type        = string
-}
-
-variable "zone_id" {
-  description = "The AWS hosted zone id"
-  type        = string
-}
-
 variable "namespace" {
   description = "The namespace the resources should be created in"
   type        = string

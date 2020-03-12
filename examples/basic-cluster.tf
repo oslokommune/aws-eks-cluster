@@ -91,11 +91,9 @@ module "echo" {
 
 module "kuard" {
   source    = "../bases/terraform/modules/kuard"
-  domain    = local.kuard_domain
   env       = local.env
   git_path  = "${local.env}/applications/kuard"
   git_url   = local.github_url
   namespace = "kuard"
   prefix    = local.prefix
-  zone_id   = module.managed-cluster.hosted_zone_id
 }
