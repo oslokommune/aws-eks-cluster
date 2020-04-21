@@ -17,7 +17,7 @@ include ../../common/kube-manifest.mk
 repository_url  := https://grafana.github.io/loki/charts
 repository_name := loki
 chart           := loki/loki-stack
-version         := 0.22.0
+version         := 0.36.0
 release_name    := loki-stack-aws
 include ../../common/kube-helm.mk
 
