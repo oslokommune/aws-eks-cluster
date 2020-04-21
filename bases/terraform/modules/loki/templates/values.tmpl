@@ -3,6 +3,11 @@ loki:
 
 promtail:
   enabled: true
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+    - operator: "Exists"
 
 fluent-bit:
   enabled: false
