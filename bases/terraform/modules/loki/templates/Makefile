@@ -24,5 +24,6 @@ include ../../common/kube-helm.mk
 .PHONY: create delete view
 create: | create-manifests create-chart
 delete: | delete-chart delete-manifests
+update: | update-chart
 view:
 	$(info not implemented yet)
