@@ -199,6 +199,8 @@ This will use an `Ingress` definition and the host field to create a domain.
 - https://github.com/helm/charts/tree/master/stable/prometheus-operator
 - https://sysdig.com/blog/kubernetes-monitoring-prometheus-operator-part3/
 
+`kubectl get servicemonitors --all-namespaces`
+
 ### Grafana
 
 

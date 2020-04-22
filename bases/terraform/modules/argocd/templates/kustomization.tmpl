@@ -1,7 +1,5 @@
-bases:
-  - github.com/argoproj/argo-cd//manifests/ha/cluster-install?ref=v1.4.2
-
 resources:
+  - github.com/argoproj/argo-cd//manifests/ha/cluster-install?ref=v1.4.2
   - argo-cd-ingress.yaml
   - argo-cd-monitoring.yaml
   - argo-cd-grafana-dashboard.yaml
