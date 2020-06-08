@@ -1,3 +1,7 @@
+**This repository is DEPRECATED**
+
+**In the very near future this repository will be replaced by: https://okctl.io/**
+
 # AWS EKS Cluster
 
 **THIS DOCUMENTATION IS NOT COMPLETE YET, IT IS A WIP**
