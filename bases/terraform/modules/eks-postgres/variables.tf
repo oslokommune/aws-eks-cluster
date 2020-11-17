@@ -85,7 +85,7 @@ variable "major_engine_version" {
 variable "engine_version" {
   description = "The specific version of postgres to use"
   type        = string
-  default     = "11.5"
+  default     = "11.8"
 }
 
 variable "deletion_protection" {
